@@ -6,7 +6,7 @@
 - Create/Read/Update/Delete company using API
 - Authenticated routes/requests(using JWT)
 - Postgres database for storage
-- Publish Event (Kafka WIP)
+- Publish Event
 
 ### Stack
 - [Postgres](https://www.postgresql.org) for a database
@@ -22,7 +22,7 @@
 
 #### Available commands
 
-- `make test` Runs all (unit and integraion)tests using docker compose
+- `make test` Runs all (unit and integration)tests using docker compose
 - `make lint` Lints the whole project using *gometalinter* (which is automatically installed if not already)
 - `make coverage` Generates a HTML code coverage report [coverage_report.html](./coverage_report.html)
 - `make run-all-local` runs whole system docker compose
@@ -100,7 +100,7 @@
   ```
 
 
-#### Todos (requires authentication)
+#### requires authentication
 
 - **GET** `/api/company/:id` Retrieves a company details
 
@@ -147,6 +147,7 @@
   }
   ```
 
-### Licence
-
-MIT
+### Improvements
+- Incomplete Integration tests
+- Integrate with Kafka
+- Need to add more unit test

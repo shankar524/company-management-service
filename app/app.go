@@ -40,8 +40,8 @@ func SetupEngine(config configs.Config) *gin.Engine {
 	/*
 		====== Setup Kafka ============
 	*/
-	kafkaHost := fmt.Sprintf("%s:%s", config.Kafka.Host, config.Kafka.Port)
-	kafkaClient := messageBroker.NewKafkaClient(kafkaHost)
+	//kafkaHost := fmt.Sprintf("%s:%s", config.Kafka.Host, config.Kafka.Port)
+	kafkaClient := messageBroker.NewFakeBroker()
 
 	messageService := services.NewMessageService(kafkaClient)
 	companyRepo := repositories.NewCompanyRepository(db)
