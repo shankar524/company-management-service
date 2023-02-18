@@ -7,6 +7,8 @@
 - Create/Read/Update/Delete company using API
 - Authenticated routes/requests(using JWT)
 - Postgres database for storage
+- Database Migration
+- Separate Docker for release and testing
 - Publish Event
 
 ### Stack
@@ -65,9 +67,29 @@
     docker run cms
   ```
 
+### Project structure
+```
+  ├── Dockerfile // for release
+  ├── Dockerfile.test // for test
+  ├── app // contains application code
+  │   ├── app.go
+  │   ├── configs // configs are loaded here
+  │   ├── controllers
+  │   ├── db // handle DB connection
+  │   ├── messageBroker //  handle Message broker connections
+  │   ├── middlewares
+  │   ├── migrations // place for all database migrations
+  │   ├── repositories
+  │   ├── route
+  │   └── services
+  ├── docker-compose.test.yaml
+  ├── docker-compose.yaml
+  ├── .env // environment configuration
+  └── main.go
+```
 ### Resources
 
-#### Application Users
+#### Public
 - **GET** `/health` Returns health of server
   Response
 
