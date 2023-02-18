@@ -1,4 +1,4 @@
-name: Go package and unit test
+name: CI
 
 on: [pull_request]
 
