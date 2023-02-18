@@ -1,4 +1,5 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://github.com/shankar524/company-management-service/actions/workflows/ci.yaml/badge.svg)](https://github.com/shankar524/company-management-service/actions/workflows/ci.yaml)
 # Go Company Management Service
 > a simple company management micro-service written in Golang
 
