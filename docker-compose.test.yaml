@@ -1,0 +1,31 @@
+version: "3"
+
+networks:
+  test-company-service-net:
+    driver: bridge
+
+services:
+  test:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.test
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    networks:
+      - test-company-service-net
+
+  db:
+    image: postgres:13.2
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_DB: companyDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: s3cretP@ss
+    networks:
+      - test-company-service-net
+

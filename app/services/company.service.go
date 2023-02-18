@@ -15,28 +15,63 @@ type CompanyServiceInterface interface {
 	DeleteCompany(ctx context.Context, id string) error
 }
 
+const (
+	Topic = "Company"
+)
+
 type CompanyService struct {
-	cRepo repo.CompanyRepositoryInterface
+	cRepo            repo.CompanyRepositoryInterface
+	messagePublisher Broadcaster
 }
 
-func NewCompanyService(cRepo repo.CompanyRepositoryInterface) CompanyServiceInterface {
-	return &CompanyService{cRepo}
+func NewCompanyService(cRepo repo.CompanyRepositoryInterface, messagePublisher Broadcaster) CompanyServiceInterface {
+	return &CompanyService{cRepo, messagePublisher}
 }
 
-func (s *CompanyService) CreateCompany(ctx context.Context, request dto.CreateCompanyRequest) (string, error) {
-	return s.cRepo.Create(ctx, request)
+func (c *CompanyService) CreateCompany(ctx context.Context, request dto.CreateCompanyRequest) (id string, err error) {
+	id, err = c.cRepo.Create(ctx, request)
+	if err != nil {
+		return
+	}
+
+	event := JSON{
+		"id":    id,
+		"event": "CREATE",
+	}
+	err = c.messagePublisher.Broadcast(Topic, event)
+	return
 }
 
 func (c *CompanyService) GetCompany(ctx context.Context, id string) (*dto.Company, error) {
 	return c.cRepo.GetById(ctx, id)
 }
 
-func (c *CompanyService) UpdateCompany(ctx context.Context, request dto.UpdateCompanyRequest, id string) error {
+func (c *CompanyService) UpdateCompany(ctx context.Context, request dto.UpdateCompanyRequest, id string) (err error) {
 
-	return c.cRepo.UpdateById(ctx, request, id)
+	err = c.cRepo.UpdateById(ctx, request, id)
+	if err != nil {
+		return
+	}
+
+	event := JSON{
+		"id":     id,
+		"action": "UPDATE",
+	}
+	err = c.messagePublisher.Broadcast(Topic, event)
+	return
 }
 
-func (c *CompanyService) DeleteCompany(ctx context.Context, id string) error {
+func (c *CompanyService) DeleteCompany(ctx context.Context, id string) (err error) {
 
-	return c.cRepo.DeleteById(ctx, id)
+	err = c.cRepo.DeleteById(ctx, id)
+	if err != nil {
+		return
+	}
+
+	event := JSON{
+		"id":    id,
+		"event": "DELETE",
+	}
+	err = c.messagePublisher.Broadcast(Topic, event)
+	return
 }

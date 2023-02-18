@@ -46,8 +46,23 @@ func (r *CompanyRepository) GetById(ctx context.Context, id string) (*dto.Compan
 
 func (r *CompanyRepository) UpdateById(ctx context.Context, request dto.UpdateCompanyRequest, id string) error {
 	company := dto.Company{}
-	_, err := r.db.Model(&company).Context(ctx).Set("name = ?, description = ?, employee_count = ?, registered = ?, type = ?", request.Name, request.Description, request.EmployeeCount, request.Registered, request.Type).Where("id = ?", id).Update()
+	//_, err := r.db.Model(&company).Context(ctx).Set("name = ?, description = ?, employee_count = ?, registered = ?, type = ?", request.Name, request.Description, request.EmployeeCount, request.Registered, request.Type).Where("id = ?", id).Update()
+	query := r.db.Model(&company).Context(ctx)
 
+	if request.Name != "" {
+		query.Set("name = ?", request.Name)
+	}
+	if request.Description != "" {
+		query.Set("description = ?", request.Description)
+	}
+	if request.EmployeeCount != 0 {
+		query.Set("employee_count = ?", request.EmployeeCount)
+	}
+	if request.Type != "" {
+		query.Set("type = ?", request.Type)
+	}
+
+	_, err := query.Where("id = ?", id).Update()
 	return err
 }
 

@@ -26,15 +26,15 @@ func NewCompanyController(service services.CompanyServiceInterface) CompanyContr
 }
 
 func (ctr *CompanyController) Create(c *gin.Context) {
-	u := dto.CreateCompanyRequest{}
-	if err := c.ShouldBindJSON(&u); err != nil {
+	cr := dto.CreateCompanyRequest{}
+	if err := c.ShouldBindJSON(&cr); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
 
-	id, err := ctr.companyService.CreateCompany(context.Background(), u)
+	id, err := ctr.companyService.CreateCompany(context.Background(), cr)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -43,7 +43,6 @@ func (ctr *CompanyController) Create(c *gin.Context) {
 		return
 	}
 
-	fmt.Printf("Request received: %+v \n", u)
 	c.JSON(http.StatusOK, gin.H{"message": "created", "id": id})
 }
 
@@ -63,20 +62,16 @@ func (ctr *CompanyController) Read(c *gin.Context) {
 
 func (ctr *CompanyController) Update(c *gin.Context) {
 
-	u := dto.UpdateCompanyRequest{}
-	if err := c.ShouldBindJSON(&u); err != nil {
+	ucr := dto.UpdateCompanyRequest{}
+	if err := c.ShouldBindJSON(&ucr); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
 
-	e := c.Param("id")
-
-	fmt.Printf("Request received: %+v \n", u)
-	fmt.Printf("Path param received: %+v \n", e)
-
-	if err := ctr.companyService.UpdateCompany(context.Background(), u, e); err != nil {
+	id := c.Param("id")
+	if err := ctr.companyService.UpdateCompany(context.Background(), ucr, id); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
