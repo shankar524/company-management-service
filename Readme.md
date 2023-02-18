@@ -6,7 +6,7 @@
 - Create/Read/Update/Delete company using API
 - Authenticated routes/requests(using JWT)
 - Postgres database for storage
-- Publish Event (Kafka WIP)
+- Publish Event
 
 ### Stack
 - [Postgres](https://www.postgresql.org) for a database
@@ -100,7 +100,7 @@
   ```
 
 
-#### Todos (requires authentication)
+#### requires authentication
 
 - **GET** `/api/company/:id` Retrieves a company details
 
@@ -147,6 +147,7 @@
   }
   ```
 
-### Licence
-
-MIT
+### Improvements
+- Incomplete Integration tests
+- Integrate with Kafka
+- Need to add more unit test
