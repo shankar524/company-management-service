@@ -22,7 +22,7 @@
 
 #### Available commands
 
-- `make test` Runs all (unit and integraion)tests using docker compose
+- `make test` Runs all (unit and integration)tests using docker compose
 - `make lint` Lints the whole project using *gometalinter* (which is automatically installed if not already)
 - `make coverage` Generates a HTML code coverage report [coverage_report.html](./coverage_report.html)
 - `make run-all-local` runs whole system docker compose
